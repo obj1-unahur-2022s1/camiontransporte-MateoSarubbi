@@ -4,7 +4,7 @@ object knightRider {
 }
 
 object bumblebee {
-	var transformacion = auto
+	var transformacion
 	method transformacion() = transformacion
 	method transformacion(unaTransformacion) {
 		transformacion = unaTransformacion
@@ -16,7 +16,7 @@ object bumblebee {
 }
 
 object paqueteLadrillos{
-	var ladrillos = 8
+	var ladrillos
 	method ladrillos() = ladrillos
 	method ladrillos(cantidad) {
 		ladrillos = cantidad
@@ -27,7 +27,7 @@ object paqueteLadrillos{
 
 
 object arena {
-	var peso = 10
+	var peso
 	method peso() = peso
 	method peso(kilos) {
 		peso = kilos
@@ -35,14 +35,14 @@ object arena {
 	method nivelDePeligrosidad() = 1
 }
 
-object bateriaAntiarea {
-	var misiles = false
+object bateriaAntiaerea {
+	var misiles
 	method misiles() = misiles
 	method misiles(boo) {
 		misiles = boo
 	}
 	method peso() = if(misiles) 300 else 200
-	method peligrosidad() = if(misiles) 100 else 0
+	method nivelDePeligrosidad() = if(misiles) 100 else 0
 }
 
 object contenedor {
@@ -68,7 +68,7 @@ object contenedor {
 }
 
 object residuosRadioactivos {
-	var peso = 50
+	var peso
 	method peso() = peso
 	method peso(kilos) {
 		peso = kilos

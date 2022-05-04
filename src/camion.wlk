@@ -26,15 +26,24 @@ object camion {
 		return self.pesoTotal() > 2500
 	}
 	method objetosQueSuperanPeligrosidad(nivel) {
-		return cosas.filter({c => c.superaPeligrosidadDe(nivel)})
+		return cosas.filter({c => c.nivelDePeligrosidad() > nivel})
 	}
 	method objetosMasPeligrososQue(cosa) {
-		return cosas.filter({c => c.esMasPeligrosoQue(cosa)})
+		return cosas.filter({c => c.nivelDePeligrosidad() > cosa.nivelDePeligrosidad()})
 	}
 	method ningunoSupera(nivelDePeligrosidad) {
-		return !cosas.any({c => c.superaPeligrosidadDe(nivelDePeligrosidad)})
+		return !cosas.any({c => c.nivelDePeligrosidad() > nivelDePeligrosidad})
 	}
 	method puedeCircularEnRuta(nivelMaximoDePeligrosidad) {
 		return !self.excedidoDePeso() and self.ningunoSupera(nivelMaximoDePeligrosidad)
+	}
+	method tieneAlgoQuePesaEntre(min,max) {
+		return cosas.any({c => c.peso().between(min,max)})
+	}
+	method cosaMasPesada() {
+		return cosas.max({c => c.peso()})
+	}
+	method pesos() {
+		return cosas.map({c => c.peso()})
 	}
 }

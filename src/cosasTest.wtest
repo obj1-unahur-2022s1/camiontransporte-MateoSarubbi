@@ -1,2 +1,27 @@
 import camion.*
 import cosas.*
+
+test "paquete de ladrillos" {
+	paqueteLadrillos.ladrillos(40)
+	assert.equals(80,paqueteLadrillos.peso())
+}
+
+test "batería antiaérea" {
+	bateriaAntiaerea.misiles(true)
+	
+	assert.equals(300,bateriaAntiaerea.peso())
+	assert.equals(100,bateriaAntiaerea.nivelDePeligrosidad())
+	
+	bateriaAntiaerea.misiles(false)
+	
+	assert.equals(200,bateriaAntiaerea.peso())
+	assert.equals(0,bateriaAntiaerea.nivelDePeligrosidad())
+}
+
+test "contenedor portuario" {
+	
+}
+
+test "embalaje de seguridad" {
+	
+}
