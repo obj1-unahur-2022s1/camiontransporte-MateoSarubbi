@@ -1,7 +1,7 @@
 import cosas.*
 
 object camion {
-	const cosas = []
+	const cosas = #{}
 	const tara = 1000
 	
 	method cargar(cosa) {
@@ -17,7 +17,7 @@ object camion {
 		return cosas.any({c => c.peso() == peso})
 	}
 	method elDeNivel(nivel) {
-		return cosas.find({c => c.nivelDePeligrosidad() == nivel})
+		return cosas.find({c => c.peligrosidad() == nivel})
 	}
 	method pesoTotal() {
 		return tara + cosas.sum({c => c.peso()})
@@ -26,16 +26,16 @@ object camion {
 		return self.pesoTotal() > 2500
 	}
 	method objetosQueSuperanPeligrosidad(nivel) {
-		return cosas.filter({c => c.nivelDePeligrosidad() > nivel})
+		return cosas.filter({c => c.peligrosidad() > nivel})
 	}
 	method objetosMasPeligrososQue(cosa) {
-		return cosas.filter({c => c.nivelDePeligrosidad() > cosa.nivelDePeligrosidad()})
+		return cosas.filter({c => c.peligrosidad() > cosa.peligrosidad()})
 	}
-	method ningunoSupera(nivelDePeligrosidad) {
-		return !cosas.any({c => c.nivelDePeligrosidad() > nivelDePeligrosidad})
+	method ningunoSuperaPeligrosidad(nivel) {
+		return !cosas.any({c => c.peligrosidad() > nivel})
 	}
 	method puedeCircularEnRuta(nivelMaximoDePeligrosidad) {
-		return !self.excedidoDePeso() and self.ningunoSupera(nivelMaximoDePeligrosidad)
+		return !self.excedidoDePeso() and self.ningunoSuperaPeligrosidad(nivelMaximoDePeligrosidad)
 	}
 	method tieneAlgoQuePesaEntre(min,max) {
 		return cosas.any({c => c.peso().between(min,max)})

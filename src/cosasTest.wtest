@@ -1,27 +1,31 @@
 import camion.*
 import cosas.*
 
-test "paquete de ladrillos" {
-	paqueteLadrillos.ladrillos(40)
-	assert.equals(80,paqueteLadrillos.peso())
-}
-
-test "batería antiaérea" {
-	bateriaAntiaerea.misiles(true)
+describe "Test cosas" {
+	const cosas = #{knightRider,bumblebee,arena}
+	method initialize() {
+		paqueteLadrillos.ladrillos(12)
+		bateriaAntiaerea.misiles(true)
+		residuosRadioactivos.peso(30)
+		embalajeSeguridad.embalar(residuosRadioactivos)
+		arena.peso(45)
+		bumblebee.transformacion(auto)
+		cosas.forEach { c => contenedor.guardar(c) }
+	}
 	
-	assert.equals(300,bateriaAntiaerea.peso())
-	assert.equals(100,bateriaAntiaerea.nivelDePeligrosidad())
-	
-	bateriaAntiaerea.misiles(false)
-	
-	assert.equals(200,bateriaAntiaerea.peso())
-	assert.equals(0,bateriaAntiaerea.nivelDePeligrosidad())
-}
-
-test "contenedor portuario" {
-	
-}
-
-test "embalaje de seguridad" {
-	
+	test "Paquete de ladrillos con 12 unidades pesa 24" {
+		assert.equals(24,paqueteLadrillos.peso())
+	}
+	test "Bateria Antiaérea con misiles pesa 300 y tiene un nivel de peligrosidad de 100" {
+		assert.equals(300,bateriaAntiaerea.peso())
+		assert.equals(100,bateriaAntiaerea.peligrosidad())
+	}
+	test "Embalaje de seguridad con 30kg de residuos radioactivos pesa 30 y tiene un nivel de peligrosidad de 100" {
+		assert.equals(30,embalajeSeguridad.peso())
+		assert.equals(100,embalajeSeguridad.peligrosidad())
+	}
+	test "Contenedor #{knightRider,bumblebee,arena} tiene un peso de 1445 y una peligrosidad de 15" {
+		assert.equals(1445,contenedor.peso())
+		assert.equals(15,contenedor.peligrosidad())
+	}
 }

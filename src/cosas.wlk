@@ -1,55 +1,51 @@
 object knightRider {
-	method peso() = 500
-	method nivelDePeligrosidad() = 10
+	const property peso = 500
+	const property peligrosidad = 10
 }
 
 object bumblebee {
 	var transformacion
-	method transformacion() = transformacion
-	method transformacion(unaTransformacion) {
-		transformacion = unaTransformacion
+	const property peso = 800
+	
+	method transformacion(nuevaTransformacion) {
+		transformacion = nuevaTransformacion
 	}
-	method peso() = 800
-	method nivelDePeligrosidad() {
-		return transformacion.peligrosidad()
-	}
+	method peligrosidad() = transformacion.peligrosidad()
 }
 
 object paqueteLadrillos{
 	var ladrillos
-	method ladrillos() = ladrillos
+	const property peligrosidad = 2
+	
 	method ladrillos(cantidad) {
 		ladrillos = cantidad
 	}
 	method peso() = ladrillos * 2
-	method nivelDePeligrosidad() = 2
 }
 
 
 object arena {
-	var peso
-	method peso() = peso
-	method peso(kilos) {
-		peso = kilos
-	}
-	method nivelDePeligrosidad() = 1
+	var property peso = 10
+	const property peligrosidad = 1
+
 }
 
 object bateriaAntiaerea {
 	var misiles
-	method misiles() = misiles
-	method misiles(boo) {
-		misiles = boo
-	}
 	method peso() = if(misiles) 300 else 200
-	method nivelDePeligrosidad() = if(misiles) 100 else 0
+	method peligrosidad() = if(misiles) 100 else 0
+	method misiles(activos) {
+		misiles = activos
+	}
 }
 
 object contenedor {
-	const cosas = []
+	const cosas = #{}
 	const peso = 100
-	method agregar(cosa) {
-		cosas.add(cosa)
+	method guardar(cosa) {
+		if(cosa != self) {
+			cosas.add(cosa)	
+		}
 	}
 	method quitar(cosa) {
 		cosas.remove(cosa)
@@ -62,28 +58,22 @@ object contenedor {
 		return cosas.sum({c => c.peso()})
 	}
 	method peligrosidad() {
-		return if(self.estaVacio()) 0 else cosas.max({c => c.nivelDePeligrosidad()}).nivelDePeligrosidad()
+		return if(self.estaVacio()) 0 else cosas.max({c => c.peligrosidad()}).peligrosidad()
 	}
-	
 }
 
 object residuosRadioactivos {
-	var peso
-	method peso() = peso
-	method peso(kilos) {
-		peso = kilos
-	}
-	method nivelDePeligrosidad() = 200
+	var property peso = 100
+	const property peligrosidad = 200
 }
 
 object embalajeSeguridad {
 	var cosa
-	method cosa() = cosa
-	method cosa(unaCosa) {
+	method embalar(unaCosa) {
 		cosa = unaCosa
 	}
 	method peso() = cosa.peso()
-	method nivelDePeligrosidad() = cosa.nivelDePeligrosidad() / 2
+	method peligrosidad() = cosa.peligrosidad() / 2
 }
 
 object auto {

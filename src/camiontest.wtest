@@ -1,3 +1,49 @@
 import camion.*
 import cosas.*
 
+describe "Test camion" {
+	const cosas = #{arena,bumblebee,bateriaAntiaerea,embalajeSeguridad}
+	method initialize() {
+		bumblebee.transformacion(robot)
+		arena.peso(150)
+		bateriaAntiaerea.misiles(true)
+		paqueteLadrillos.ladrillos(80)
+		embalajeSeguridad.embalar(paqueteLadrillos)
+		cosas.forEach { c => camion.cargar(c) }
+	}
+	
+	test "El peso de cada una de las cosas cargadas en el camión es par" {
+		assert.that(camion.todoPesoPar())
+	}
+	test "No hay cosa que pese 90 en el camión" {
+		assert.notThat(camion.hayAlgunoQuePesa(90))
+	}
+	test "La cosa con un nivel de peligrosidad de 30 es bumblebee" {
+		assert.equals(bumblebee,camion.elDeNivel(30))
+	}
+	test "El peso total del camión es de 2410 y no está excedido de peso" {
+		assert.equals(2410,camion.pesoTotal())
+		assert.notThat(camion.excedidoDePeso())
+	}
+	test "Objetos que superan peligrosidad de 20" {
+		assert.equals(cosas.filter({c => c.peligrosidad() > 20}),camion.objetosQueSuperanPeligrosidad(20))
+	}
+	test "Objetos más peligrosos que bumblebee" {
+		assert.equals(#{cosas.find({c=>c.peligrosidad() > bumblebee.peligrosidad()})},camion.objetosMasPeligrososQue(bumblebee))
+	}
+	test "Tiene objetos que pesan entre 50 y 200" {
+		assert.that(camion.tieneAlgoQuePesaEntre(50,200))
+	}
+	test "Ninguno supera peligrosidad de 100" {
+		assert.that(camion.ningunoSuperaPeligrosidad(100))
+	}
+	test "Puede circular en ruta con un nivel máximo de peligrosidad de 200" {
+		assert.that(camion.puedeCircularEnRuta(200))
+	}
+	test "La cosa más pesada es bumblebee" {
+		assert.equals(bumblebee,camion.cosaMasPesada())
+	}
+	test "Map de los pesos" {
+		assert.equals([150,300,800,160],camion.pesos())
+	}
+}
