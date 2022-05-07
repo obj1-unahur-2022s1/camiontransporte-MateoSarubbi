@@ -1,0 +1,70 @@
+import camion2.*
+import cosas2.*
+
+describe "Test total de bultos" {
+	const cosas = #{knightRider,bumblebee,paqueteLadrillos,arena,bateriaAntiaerea,embalajeSeguridad,contenedor,residuosRadioactivos}
+	const cosasContenedor = #{paqueteLadrillos,bateriaAntiaerea,bumblebee}
+	method initialize() {
+		paqueteLadrillos.ladrillos(350)
+		bateriaAntiaerea.misiles(true)
+		cosas.forEach { c => camion.cargar(c) }
+	}
+	
+	test "totaBultos con todas las cosas, misiles cargados y paqueteLadrillos con 350 ladrillos devuelve 13" {
+		assert.equals(13,camion.totalBultos())
+	}
+	test "paqueteLadrillos con 250 ladrillos son 2 bultos" {
+		paqueteLadrillos.ladrillos(250)
+		assert.equals(2,paqueteLadrillos.bultos())
+	}
+	test "paqueteLadrillos con 80 ladrillos es 1 bulto" {
+		paqueteLadrillos.ladrillos(80)
+		assert.equals(1,paqueteLadrillos.bultos())
+	}
+	test "bateriaAntiaerea sin misiles es 1 bulto" {
+		bateriaAntiaerea.misiles(false)
+		assert.equals(1,bateriaAntiaerea.bultos())
+	}
+	test "contenedor con paqueteLadrillos (ladrillos = 100), bateriaAntiaerea y bumblebee son 6 bultos" {
+		paqueteLadrillos.ladrillos(100)
+		cosasContenedor.forEach { c => contenedor.guardar(c) }
+		assert.equals(6,contenedor.bultos())
+	}
+}
+
+describe "Test consecuencia de la carga" {
+	const cosas = #{knightRider,bumblebee,paqueteLadrillos,bateriaAntiaerea,contenedor}
+	const cosasContenedor = #{residuosRadioactivos,arena}
+	method initialize() {
+		bumblebee.transformacion(auto)
+		paqueteLadrillos.ladrillos(0)
+		arena.peso(0)
+		bateriaAntiaerea.misiles(false)
+		residuosRadioactivos.peso(0)
+		cosasContenedor.forEach { c => contenedor.guardar(c) }
+		cosas.forEach { c => camion.cargar(c) }
+	}
+	
+	test "bumblebee pasa a robot, por lo tanto su peligrosidad es de 30" {
+		assert.equals(30,bumblebee.peligrosidad())
+	}
+	test "paqueteLadrillos (ladrillos = 0) suma 12 ladrillos, por lo tanto su peso es de 24" {
+		assert.equals(24,paqueteLadrillos.peso())
+	}
+	test "bateriaAntiaerea carga los misiles, por lo tanto su peligrosidad es de 100" {
+		assert.equals(100,bateriaAntiaerea.peligrosidad())
+	}
+	test "Dentro del contenedor, residuosRadioactivos (peso = 0) agrega 15 kilos" {
+		assert.equals(15,residuosRadioactivos.peso())
+	}
+	test "Dentro del contenedor, arena (peso = 0) agrega 20 kilos" {
+		assert.equals(20,arena.peso())
+	}
+	test "Ladrillos (peso = 24) en embalajeSeguridad no sufre cambios" {
+		embalajeSeguridad.embalar(paqueteLadrillos)
+		camion.cargar(embalajeSeguridad)
+		
+		assert.equals(24,paqueteLadrillos.peso())
+	}
+	
+}
